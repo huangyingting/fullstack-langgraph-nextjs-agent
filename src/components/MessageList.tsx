@@ -44,8 +44,8 @@ const MessageList = ({ messages, approveToolExecution }: MessageListProps) => {
   }, []);
 
   return (
-    <div className="w-full">
-      <div className="mx-auto w-full max-w-3xl space-y-1 px-6 py-4">
+    <div className="w-full\">
+      <div className="mx-auto w-full max-w-3xl space-y-0.5 px-6 py-2\">
         {uniqueMessages.map((message, index) => {
           if (message.type === "human") {
             return <HumanMessage key={getMessageId(message)} message={message} />;
