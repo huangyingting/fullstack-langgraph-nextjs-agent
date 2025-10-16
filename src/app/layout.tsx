@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./globals.css";
 import { ThreadProvider } from "@/contexts/ThreadContext";
 import { UISettingsProvider } from "@/contexts/UISettingsContext";
+import { ModelSettingsProvider } from "@/contexts/ModelSettingsContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,9 +21,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <QueryClientProvider client={queryClient}>
-          <UISettingsProvider>
-            <ThreadProvider>{children}</ThreadProvider>
-          </UISettingsProvider>
+          <ModelSettingsProvider>
+            <UISettingsProvider>
+              <ThreadProvider>{children}</ThreadProvider>
+            </UISettingsProvider>
+          </ModelSettingsProvider>
         </QueryClientProvider>
       </body>
     </html>

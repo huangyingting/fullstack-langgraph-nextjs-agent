@@ -31,6 +31,7 @@ export async function streamResponse(params: {
       };
 
   const agent = await ensureAgent({
+    provider: opts?.provider,
     model: opts?.model,
     tools: opts?.tools,
     approveAllTools: opts?.approveAllTools,

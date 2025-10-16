@@ -20,7 +20,7 @@
     "@langchain/core": "^0.3.78",
     "@langchain/google-genai": "^0.2.18",
     "@langchain/langgraph": "^0.4.9",
-    "@langchain/langgraph-checkpoint-sqlite": "^0.1.2",
+    "@langchain/langgraph-checkpoint-sqlite": "^0.2.1",
     "@langchain/mcp-adapters": "^0.6.0",
     "@langchain/openai": "^0.6.14",
     "@langchain/tavily": "^0.1.5",

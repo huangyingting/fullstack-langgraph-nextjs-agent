@@ -21,12 +21,14 @@ export function createChatModel({
       return new ChatOpenAI({ model, temperature });
     case "azure-openai":
       return new AzureChatOpenAI({
-        model,
+        // Use deployment name from env, or model parameter as fallback  
+        azureOpenAIApiDeploymentName: process.env.AZURE_OPENAI_API_DEPLOYMENT_NAME || model,
         temperature,
         azureOpenAIApiKey: process.env.AZURE_OPENAI_API_KEY,
         azureOpenAIApiInstanceName: process.env.AZURE_OPENAI_API_INSTANCE_NAME,
-        azureOpenAIApiDeploymentName: process.env.AZURE_OPENAI_API_DEPLOYMENT_NAME,
         azureOpenAIApiVersion: process.env.AZURE_OPENAI_API_VERSION || "2024-02-15-preview",
+        // Explicitly set streaming to false to avoid potential iterator issues
+        streaming: false,
       });
     case "google":
     default:

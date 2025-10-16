@@ -28,18 +28,18 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggle, children }) => {
           width: isOpen ? 256 : 0,
         }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className={`fixed top-0 left-0 z-30 h-screen overflow-hidden border-r border-gray-100 bg-white md:sticky ${
+        className={`fixed top-0 left-0 z-30 h-screen overflow-hidden border-r border-gray-200/50 bg-gradient-to-b from-white to-gray-50/50 backdrop-blur-xl supports-[backdrop-filter]:bg-white/90 dark:border-gray-800/50 dark:from-gray-900 dark:to-gray-900/80 md:sticky ${
           isOpen ? "flex" : "hidden md:flex"
         }`}
       >
-        <div className="flex h-full w-64 flex-shrink-0 flex-col overflow-hidden p-5">
+        <div className="flex h-full w-64 flex-shrink-0 flex-col overflow-hidden px-3 py-4">
           <div className="mb-6 flex items-center justify-between">
             <button
               onClick={toggle}
-              className="cursor-pointer rounded-full p-2 text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700 md:hidden"
+              className="cursor-pointer inline-flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 transition-all hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100 md:hidden"
               aria-label="Close sidebar"
             >
-              <X size={20} />
+              <X size={18} />
             </button>
           </div>
 

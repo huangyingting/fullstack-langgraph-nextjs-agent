@@ -10,10 +10,11 @@ import {
   X,
   Pencil,
   RefreshCcw,
-  Settings,
   Trash2,
 } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
+import { SidebarSettings } from "./SidebarSettings";
+import { useModelSettings } from "@/contexts/ModelSettingsContext";
 
 interface ThreadListProps {
   onOpenMCPConfig: () => void;
@@ -21,6 +22,7 @@ interface ThreadListProps {
 
 export function ThreadList({ onOpenMCPConfig }: ThreadListProps) {
   const { threads, createThread, deleteThread, refetchThreads } = useThreads();
+  const { provider, setProvider, model, setModel } = useModelSettings();
   const [isCreating, setIsCreating] = useState(false);
   const [filter, setFilter] = useState("");
   const [renamingId, setRenamingId] = useState<string | null>(null);
@@ -103,13 +105,13 @@ export function ThreadList({ onOpenMCPConfig }: ThreadListProps) {
   };
 
   return (
-    <nav className="flex h-full flex-col border-r border-gray-200 bg-white/60 backdrop-blur-sm dark:border-gray-800 dark:bg-gray-900/60">
-      <div className="space-y-2 px-3 pt-3 pb-2">
+    <nav className="flex h-full flex-col border-r border-gray-200/50 bg-gradient-to-b from-white to-gray-50/50 backdrop-blur-sm dark:border-gray-800/50 dark:from-gray-900 dark:to-gray-900/50">
+      <div className="space-y-3 px-3 pt-4 pb-2">
         <div className="flex gap-2">
           <button
             onClick={handleCreateThread}
             disabled={isCreating}
-            className="bg-primary text-primary-foreground inline-flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-md px-3 py-2 text-xs font-medium transition-colors hover:brightness-110 disabled:opacity-50"
+            className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white inline-flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold transition-all hover:shadow-lg hover:shadow-blue-500/30 disabled:opacity-50 dark:from-blue-700 dark:to-indigo-700"
           >
             {isCreating ? (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -120,7 +122,7 @@ export function ThreadList({ onOpenMCPConfig }: ThreadListProps) {
           </button>
           <button
             onClick={handleRefresh}
-            className="border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground inline-flex items-center justify-center rounded-md border px-2 py-2"
+            className="border border-gray-200/50 text-gray-600 hover:bg-gray-100 hover:text-gray-900 inline-flex items-center justify-center rounded-lg px-2.5 py-2 transition-all dark:border-gray-700/50 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100"
             title="Refresh"
           >
             {refreshing ? (
@@ -131,23 +133,27 @@ export function ThreadList({ onOpenMCPConfig }: ThreadListProps) {
           </button>
         </div>
         <div className="group relative">
-          <Search className="absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2 text-gray-400" />
+          <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400" />
           <input
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
             placeholder="Search threads..."
-            className="w-full rounded-md border border-gray-300/70 bg-white/40 py-1.5 pr-2 pl-8 text-xs focus:ring-2 focus:ring-blue-500/40 focus:outline-none dark:border-gray-700/70 dark:bg-gray-800/40"
+            className="w-full rounded-lg border border-gray-200/50 bg-white/50 py-2 pr-3 pl-9 text-xs font-medium focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-gray-700/50 dark:bg-gray-800/30 dark:text-gray-100 dark:focus:border-blue-600"
           />
         </div>
       </div>
-      <div className="flex-1 space-y-1 overflow-y-auto px-2 pb-3">
+      <div className="flex-1 space-y-1.5 overflow-y-auto px-2 pb-3">
         {filtered.map((thread) => {
           const active = pathname === `/thread/${thread.id}`;
           const isRenaming = renamingId === thread.id;
           return (
             <div
               key={thread.id}
-              className={`group relative cursor-pointer rounded-md border border-transparent px-3 py-2 text-left ${active ? "bg-accent text-accent-foreground dark:bg-accent/60" : "hover:bg-muted/60 dark:hover:bg-muted/30 text-foreground/80"}`}
+              className={`group relative cursor-pointer rounded-lg border px-3 py-2.5 text-left transition-all ${
+                active
+                  ? "border-blue-200/50 bg-gradient-to-r from-blue-50/80 to-indigo-50/50 text-gray-900 dark:border-blue-900/30 dark:from-blue-950/40 dark:to-indigo-950/30 dark:text-gray-100"
+                  : "border-transparent hover:bg-gray-100/50 text-gray-700 dark:hover:bg-gray-800/30 dark:text-gray-300"
+              }`}
               onClick={() => {
                 if (!isRenaming) router.push(`/thread/${thread.id}`);
               }}
@@ -163,10 +169,10 @@ export function ThreadList({ onOpenMCPConfig }: ThreadListProps) {
                         e.stopPropagation();
                         startRename(thread.id, thread.title);
                       }}
-                      className="hover:bg-muted inline-flex h-5 w-5 items-center justify-center rounded"
+                      className="hover:bg-blue-100 inline-flex h-7 w-7 items-center justify-center rounded-md transition-colors dark:hover:bg-blue-900/30"
                       title="Rename"
                     >
-                      <Pencil className="h-3.5 w-3.5" />
+                      <Pencil className="h-3.5 w-3.5 text-gray-600 dark:text-gray-400" />
                     </button>
                     <button
                       onClick={(e) => {
@@ -174,20 +180,20 @@ export function ThreadList({ onOpenMCPConfig }: ThreadListProps) {
                         handleDeleteThread(thread.id);
                       }}
                       disabled={deletingId === thread.id}
-                      className="hover:bg-muted inline-flex h-5 w-5 items-center justify-center rounded hover:text-red-600 disabled:opacity-50"
+                      className="hover:bg-red-100 inline-flex h-7 w-7 items-center justify-center rounded-md transition-colors hover:text-red-600 disabled:opacity-50 dark:hover:bg-red-900/30 dark:hover:text-red-400"
                       title="Delete"
                     >
                       {deletingId === thread.id ? (
                         <Loader2 className="h-3.5 w-3.5 animate-spin" />
                       ) : (
-                        <Trash2 className="h-3.5 w-3.5" />
+                        <Trash2 className="h-3.5 w-3.5 text-gray-600 dark:text-gray-400" />
                       )}
                     </button>
                   </div>
                 </div>
               )}
               {isRenaming && (
-                <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+                <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
                   <input
                     ref={inputRef}
                     value={renameValue}
@@ -196,12 +202,12 @@ export function ThreadList({ onOpenMCPConfig }: ThreadListProps) {
                       if (e.key === "Enter") saveRename();
                       if (e.key === "Escape") cancelRename();
                     }}
-                    className="bg-background border-input focus:ring-ring/40 flex-1 rounded border px-2 py-1 text-xs focus:ring-2 focus:outline-none"
+                    className="bg-white dark:bg-gray-800 border-gray-200/50 dark:border-gray-700/50 focus:ring-blue-500/20 flex-1 rounded-lg border px-2.5 py-1.5 text-xs font-medium focus:ring-2 focus:outline-none dark:text-gray-100"
                   />
                   <button
                     disabled={savingRename}
                     onClick={saveRename}
-                    className="bg-primary text-primary-foreground inline-flex h-6 w-6 items-center justify-center rounded hover:brightness-110 disabled:opacity-50"
+                    className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white inline-flex h-7 w-7 items-center justify-center rounded-lg hover:shadow-lg hover:shadow-blue-500/30 disabled:opacity-50 transition-all"
                   >
                     {savingRename ? (
                       <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -211,7 +217,7 @@ export function ThreadList({ onOpenMCPConfig }: ThreadListProps) {
                   </button>
                   <button
                     onClick={cancelRename}
-                    className="bg-muted text-muted-foreground inline-flex h-6 w-6 items-center justify-center rounded hover:brightness-110"
+                    className="bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 inline-flex h-7 w-7 items-center justify-center rounded-lg transition-colors"
                   >
                     <X className="h-3.5 w-3.5" />
                   </button>
@@ -230,16 +236,14 @@ export function ThreadList({ onOpenMCPConfig }: ThreadListProps) {
         )}
       </div>
 
-      {/* MCP Configuration Button */}
-      <div className="border-t border-gray-200 p-3">
-        <button
-          onClick={onOpenMCPConfig}
-          className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-md bg-gray-50 px-3 py-2 text-xs font-medium text-gray-600 transition-colors hover:bg-gray-100"
-        >
-          <Settings className="h-4 w-4" />
-          Configure MCP Servers
-        </button>
-      </div>
+      {/* Sidebar Settings */}
+      <SidebarSettings
+        provider={provider}
+        setProvider={setProvider}
+        model={model}
+        setModel={setModel}
+        onOpenMCPConfig={onOpenMCPConfig}
+      />
     </nav>
   );
 }

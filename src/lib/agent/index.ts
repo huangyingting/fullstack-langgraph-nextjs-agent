@@ -48,7 +48,10 @@ async function createAgent(cfg?: AgentConfigOptions) {
   // Load MCP tools
   const mcpTools = await getMCPTools();
   const configTools = (cfg?.tools || []) as StructuredToolInterface[];
-  const allTools = [...configTools, ...mcpTools] as DynamicTool[];
+  
+  // Ensure mcpTools is an array before spreading
+  const mcpToolsArray = Array.isArray(mcpTools) ? mcpTools : [];
+  const allTools = [...configTools, ...mcpToolsArray] as DynamicTool[];
 
   const agent = new AgentBuilder({
     llm,

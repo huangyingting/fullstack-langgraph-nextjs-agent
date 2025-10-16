@@ -15,6 +15,7 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const userContent = searchParams.get("content") || "";
   const threadId = searchParams.get("threadId") || "unknown";
+  const provider = searchParams.get("provider") || undefined;
   const model = searchParams.get("model") || undefined;
   const allowTool = searchParams.get("allowTool") as "allow" | "deny" | null;
   const toolsParam = searchParams.get("tools") || "";
@@ -43,7 +44,7 @@ export async function GET(req: NextRequest) {
           const iterable = await streamResponse({
             threadId,
             userText: userContent,
-            opts: { model, tools, allowTool: allowTool || undefined, approveAllTools },
+            opts: { provider, model, tools, allowTool: allowTool || undefined, approveAllTools },
           });
           for await (const chunk of iterable) {
             // Only forward AI/tool chunks; ignore human/system

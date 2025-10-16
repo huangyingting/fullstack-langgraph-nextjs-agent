@@ -42,6 +42,7 @@ export function createMessageStream(
   opts?: MessageOptions,
 ): EventSource {
   const params = new URLSearchParams({ content: message, threadId });
+  if (opts?.provider) params.set("provider", opts.provider);
   if (opts?.model) params.set("model", opts.model);
   if (opts?.tools?.length) params.set("tools", opts.tools.join(","));
   if (opts?.allowTool) params.set("allowTool", opts.allowTool);

@@ -42,8 +42,10 @@ export class AgentBuilder {
     if (!llm) {
       throw new Error("Language model (llm) is required");
     }
-    this.tools = tools || [];
-    this.toolNode = new ToolNode(tools || []);
+    // Ensure tools is always an array
+    const toolsArray = Array.isArray(tools) ? tools : [];
+    this.tools = toolsArray;
+    this.toolNode = new ToolNode(toolsArray);
     this.systemPrompt = prompt;
     this.model = llm;
     this.checkpointer = checkpointer;
@@ -52,6 +54,10 @@ export class AgentBuilder {
 
   private shouldApproveTool(state: typeof MessagesAnnotation.State) {
     const { messages } = state;
+    // Ensure messages is an array
+    if (!Array.isArray(messages) || messages.length === 0) {
+      return END;
+    }
     const lastMessage = messages[messages.length - 1];
     if (
       "tool_calls" in lastMessage &&
@@ -68,6 +74,10 @@ export class AgentBuilder {
       return new Command({ goto: "tools" });
     }
     const { messages } = state;
+    // Ensure messages is an array before accessing
+    if (!Array.isArray(messages) || messages.length === 0) {
+      return new Command({ goto: "agent" });
+    }
     const lastMessage = messages[messages.length - 1];
     if (
       "tool_calls" in lastMessage &&
@@ -129,14 +139,29 @@ export class AgentBuilder {
     if (!this.model || !this.model.bindTools) {
       throw new Error("Invalid or missing language model (llm)");
     }
+    
+    // Ensure state.messages is iterable
+    const stateMessages = Array.isArray(state.messages) ? state.messages : [];
+    
     const messages = [
       // Add always system prompt so it is not duplicated in the messages
       new SystemMessage(this.systemPrompt),
-      ...state.messages,
+      ...stateMessages,
     ];
-    const modelInvoker = this.model.bindTools(this.tools);
+    
+    // Ensure tools is an array before binding
+    const toolsArray = Array.isArray(this.tools) ? this.tools : [];
+    
+    // Only bind tools if there are tools to bind
+    const modelInvoker = toolsArray.length > 0 
+      ? this.model.bindTools(toolsArray)
+      : this.model;
+    
     const response = await modelInvoker.invoke(messages);
-    return { messages: response };
+    
+    // MessagesAnnotation expects messages to be added as an array or single message
+    // The reducer will handle converting single message to array format
+    return { messages: [response] };
   }
 
   build() {

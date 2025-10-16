@@ -9,22 +9,24 @@ interface HumanMessageProps {
 
 export const HumanMessage = ({ message }: HumanMessageProps) => {
   return (
-    <div className="flex justify-end gap-3">
+    <div className="flex justify-end gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
       <div className="max-w-[80%]">
         <div
           className={cn(
-            "rounded-2xl px-4 py-2",
-            "bg-gray-300/50 text-gray-800",
-            "backdrop-blur-sm supports-[backdrop-filter]:bg-gray-300/50",
+            "rounded-2xl px-4 py-3 shadow-md",
+            "bg-gradient-to-br from-blue-600 to-indigo-600 text-white",
+            "border border-blue-500/30",
+            "backdrop-blur-sm",
+            "dark:from-blue-700 dark:to-indigo-700",
           )}
         >
-          <div className="prose dark:prose-invert max-w-none">
-            <p className="my-0">{getMessageContent(message)}</p>
+          <div className="prose prose-invert max-w-none dark:prose-invert">
+            <p className="my-0 leading-relaxed">{getMessageContent(message)}</p>
           </div>
         </div>
       </div>
-      <div className="bg-primary/10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full">
-        <UserIcon className="text-primary h-5 w-5" />
+      <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg shadow-blue-500/20">
+        <UserIcon className="h-5 w-5 text-white" />
       </div>
     </div>
   );

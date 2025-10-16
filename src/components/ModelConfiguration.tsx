@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 import { BrainCog, Loader2, Wrench } from "lucide-react";
 import Image from "next/image";
@@ -11,6 +13,7 @@ interface ModelConfigurationProps {
   setModel: (model: string) => void;
   approveAllTools?: boolean;
   setApproveAllTools?: (approveAllTools: boolean) => void;
+  compact?: boolean;
 }
 
 export const ModelConfiguration = ({
@@ -18,6 +21,7 @@ export const ModelConfiguration = ({
   setProvider,
   model,
   setModel,
+  compact = true,
 }: ModelConfigurationProps) => {
   const [showMCPTooltip, setShowMCPTooltip] = useState(false);
   const editContainerRef = useRef<HTMLDivElement | null>(null);
@@ -43,30 +47,32 @@ export const ModelConfiguration = ({
   }, [showMCPTooltip]);
 
   return (
-    <div className="space-y-4" ref={editContainerRef}>
+    <div className={compact ? "space-y-2" : "space-y-4"} ref={editContainerRef}>
       {/* Provider Selection */}
-      <div className="space-y-2">
-        <label className="block text-xs font-medium text-gray-600 dark:text-gray-400">
+      <div className="space-y-1.5">
+        <label className={`block font-medium ${compact ? "text-xs text-gray-600 dark:text-gray-400" : "text-sm text-gray-700 dark:text-gray-300"}`}>
           Provider
         </label>
-        <div className="flex items-center gap-3">
-          <span className="inline-flex h-6 w-6 items-center justify-center overflow-hidden rounded bg-gray-200 dark:bg-gray-700">
+        <div className="flex items-center gap-2">
+          <span className="inline-flex h-6 w-6 items-center justify-center overflow-hidden rounded bg-gray-100 dark:bg-gray-700">
             <Image
               src={`/${provider === "azure-openai" ? "openai" : provider.toLowerCase()}.svg`}
               alt={provider}
-              width={24}
-              height={24}
+              width={20}
+              height={20}
               className="object-contain p-0.5"
               onError={(e) => {
                 e.currentTarget.style.display = "none";
               }}
             />
-            <BrainCog className="h-4 w-4" />
+            {provider === "azure-openai" && (
+              <BrainCog className="h-3.5 w-3.5" />
+            )}
           </span>
           <select
             value={provider}
             onChange={(e) => setProvider(e.target.value)}
-            className="flex-1 rounded border border-gray-300 bg-white px-3 py-1.5 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200"
+            className={`flex-1 rounded-md border border-gray-300 bg-white/80 ${compact ? "px-2 py-1 text-xs" : "px-3 py-1.5 text-sm"} transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-gray-600 dark:bg-gray-800/80 dark:text-gray-200`}
           >
             <option value="google">Google</option>
             <option value="openai">OpenAI</option>
@@ -76,20 +82,22 @@ export const ModelConfiguration = ({
       </div>
 
       {/* Model Selection */}
-      <div className="space-y-2">
-        <label className="block text-xs font-medium text-gray-600 dark:text-gray-400">Model</label>
+      <div className="space-y-1.5">
+        <label className={`block font-medium ${compact ? "text-xs text-gray-600 dark:text-gray-400" : "text-sm text-gray-700 dark:text-gray-300"}`}>
+          Model
+        </label>
         <input
           value={model}
           onChange={(e) => setModel(e.target.value)}
-          placeholder="Enter model name"
-          className="w-full rounded border border-gray-300 bg-white px-3 py-1.5 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200"
+          placeholder={compact ? "gpt-4o-mini" : "Enter model name"}
+          className={`w-full rounded-md border border-gray-300 bg-white/80 ${compact ? "px-2 py-1 text-xs" : "px-3 py-1.5 text-sm"} transition-all placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-gray-600 dark:bg-gray-800/80 dark:text-gray-200 dark:placeholder:text-gray-500`}
         />
       </div>
 
       {/* MCP Tools Display */}
-      {((mcpToolsData?.totalCount ?? 0) > 0 || mcpToolsLoading) && (
+      {!compact && (mcpToolsData?.totalCount ?? 0) > 0 && (
         <div className="space-y-2">
-          <label className="block text-xs font-medium text-gray-600 dark:text-gray-400">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             MCP Tools
           </label>
           <div className="flex items-center gap-2">

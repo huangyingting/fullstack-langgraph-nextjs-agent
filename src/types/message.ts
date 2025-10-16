@@ -6,6 +6,7 @@ export interface Thread {
 }
 
 export interface MessageOptions {
+  provider?: string;
   model?: string;
   tools?: string[];
   allowTool?: "allow" | "deny";

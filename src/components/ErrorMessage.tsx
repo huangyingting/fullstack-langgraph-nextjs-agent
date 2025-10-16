@@ -9,17 +9,17 @@ interface ErrorMessageProps {
 
 export const ErrorMessage = ({ message }: ErrorMessageProps) => {
   return (
-    <div className="flex gap-3">
-      <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-red-500/10">
-        <AlertTriangle className="h-5 w-5 text-red-600" />
+    <div className="flex gap-3 animate-in fade-in slide-in-from-bottom-2 duration-300">
+      <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-red-500 to-rose-600 shadow-lg shadow-red-500/20">
+        <AlertTriangle className="h-5 w-5 text-white" />
       </div>
       <div className="max-w-[80%]">
         <div
           className={cn(
-            "rounded-2xl border border-red-400/40 bg-red-500/15 px-4 py-2 text-red-700 dark:text-red-300",
+            "rounded-2xl border border-red-400/30 bg-gradient-to-br from-red-50 to-rose-50/50 px-4 py-3 text-red-900 shadow-md dark:border-red-900/30 dark:from-red-950/40 dark:to-rose-950/30 dark:text-red-200",
           )}
         >
-          <p className="m-0 text-sm whitespace-pre-wrap">{getMessageContent(message)}</p>
+          <p className="m-0 text-sm whitespace-pre-wrap leading-relaxed">{getMessageContent(message)}</p>
         </div>
       </div>
     </div>

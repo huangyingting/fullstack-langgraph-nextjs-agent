@@ -32,22 +32,24 @@ export const AIMessage = ({
   }
 
   return (
-    <div className="flex gap-3">
-      <div className="bg-primary/10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full">
-        <Bot className="text-primary h-5 w-5" />
+    <div className="flex gap-3 animate-in fade-in slide-in-from-bottom-2 duration-300">
+      <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg shadow-blue-500/20">
+        <Bot className="h-5 w-5 text-white" />
       </div>
       <div className="max-w-[80%] space-y-3">
         {messageContent && (
           <div
             className={cn(
-              "rounded-2xl px-4 py-2",
-              "bg-gray-200/30 text-gray-800",
-              "backdrop-blur-sm supports-[backdrop-filter]:bg-gray-200/30",
+              "rounded-2xl px-4 py-3 shadow-md",
+              "bg-gradient-to-br from-gray-50 to-gray-100/50 text-gray-900",
+              "border border-gray-200/50",
+              "backdrop-blur-sm supports-[backdrop-filter]:bg-gray-50/80",
+              "dark:from-gray-800 dark:to-gray-900/50 dark:text-gray-100 dark:border-gray-700/50",
             )}
           >
             <div
               data-color-mode="light"
-              className="[&_hr]:!my-1 [&_hr]:h-px [&_hr]:border-0 [&_hr]:border-t [&_hr]:border-gray-300 [&_li]:my-1 [&_ol]:ml-6 [&_ol]:list-decimal [&_ul]:ml-6 [&_ul]:list-disc"
+              className="[&_hr]:!my-2 [&_hr]:h-px [&_hr]:border-0 [&_hr]:border-t [&_hr]:border-gray-300 dark:[&_hr]:border-gray-600 [&_li]:my-1 [&_ol]:ml-6 [&_ol]:list-decimal [&_ul]:ml-6 [&_ul]:list-disc [&_a]:text-blue-600 dark:[&_a]:text-blue-400 [&_a]:hover:underline [&_code]:bg-gray-200 dark:[&_code]:bg-gray-700 [&_code]:px-2 [&_code]:py-1 [&_code]:rounded [&_code]:text-sm"
             >
               <MDEditor.Markdown
                 source={messageContent}

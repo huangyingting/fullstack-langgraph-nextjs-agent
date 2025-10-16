@@ -12,6 +12,7 @@ interface MainLayoutProps {
 export function MainLayout({ children }: MainLayoutProps) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [showMCPConfig, setShowMCPConfig] = useState(false);
+  
   const toggleSidebar = useCallback(() => setSidebarOpen((v) => !v), []);
   const openMCPConfig = useCallback(() => setShowMCPConfig(true), []);
   const closeMCPConfig = useCallback(() => setShowMCPConfig(false), []);

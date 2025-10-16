@@ -16,8 +16,17 @@ export async function GET() {
     const serverGroups: MCPToolsGrouped = {};
 
     for (const tool of tools) {
+      // Type guard: ensure tool is an object with name property
+      if (!tool || typeof tool !== 'object' || !('name' in tool)) {
+        continue;
+      }
+      
       // Extract server name from tool name (assumes format: "servername__toolname")
-      const toolName = tool.name || "unknown";
+      const toolName = (tool as Record<string, unknown>).name || "unknown";
+      if (typeof toolName !== 'string') {
+        continue;
+      }
+      
       const parts = toolName.split("__");
       const serverName = parts.length > 1 ? parts[0] : "default";
       const cleanToolName = parts.length > 1 ? parts.slice(1).join("__") : toolName;
@@ -29,9 +38,10 @@ export async function GET() {
         };
       }
 
+      const description = (tool as Record<string, unknown>).description;
       serverGroups[serverName].tools.push({
         name: cleanToolName,
-        description: tool.description || undefined,
+        description: typeof description === 'string' ? description : undefined,
       });
       serverGroups[serverName].count++;
     }

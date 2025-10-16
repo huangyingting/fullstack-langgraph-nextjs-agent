@@ -99,7 +99,16 @@ export async function getMCPTools() {
     }
 
     const tools = await client.getTools();
-    return tools;
+    
+    // Ensure tools is always an array
+    if (Array.isArray(tools)) {
+      return tools as unknown[];
+    } else if (tools && typeof tools === 'object') {
+      // If tools is an object/dict, convert values to array
+      return Object.values(tools) as unknown[];
+    }
+    
+    return [];
   } catch (error) {
     console.error("Failed to get MCP tools:", error);
     return [];
