@@ -11,7 +11,7 @@ pnpm prisma:generate
 pnpm prisma:migrate
 
 # Development
-pnpm dev                      # Next.js with Turbopack
+pnpm dev                      # Next.js dev server
 pnpm build                    # Production build
 pnpm lint                     # ESLint
 pnpm format                   # Prettier formatting

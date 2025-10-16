@@ -52,7 +52,7 @@ export const ModelConfiguration = ({
         <div className="flex items-center gap-3">
           <span className="inline-flex h-6 w-6 items-center justify-center overflow-hidden rounded bg-gray-200 dark:bg-gray-700">
             <Image
-              src={`/${provider.toLowerCase()}.svg`}
+              src={`/${provider === "azure-openai" ? "openai" : provider.toLowerCase()}.svg`}
               alt={provider}
               width={24}
               height={24}
@@ -70,6 +70,7 @@ export const ModelConfiguration = ({
           >
             <option value="google">Google</option>
             <option value="openai">OpenAI</option>
+            <option value="azure-openai">Azure OpenAI</option>
           </select>
         </div>
       </div>

@@ -81,9 +81,15 @@ Edit `.env.local` with your configuration:
 # Database (SQLite - stores data locally)
 DATABASE_URL="file:./prisma/dev.db"
 
-# AI Models (choose one or both)
+# AI Models (choose one or more)
 OPENAI_API_KEY="sk-..."
 GOOGLE_API_KEY="..."
+
+# Azure OpenAI (optional)
+AZURE_OPENAI_API_KEY="..."
+AZURE_OPENAI_API_INSTANCE_NAME="your-instance"
+AZURE_OPENAI_API_DEPLOYMENT_NAME="your-deployment"
+AZURE_OPENAI_API_VERSION="2024-02-15-preview"
 
 # Optional: Default model
 DEFAULT_MODEL="gpt-4o-mini"  # or "gemini-1.5-flash"
@@ -241,7 +247,7 @@ For detailed architecture documentation, see [docs/ARCHITECTURE.md](docs/ARCHITE
 ### Available Scripts
 
 ```bash
-pnpm dev                 # Start development server with Turbopack
+pnpm dev                 # Start development server
 pnpm build              # Production build
 pnpm start              # Start production server
 pnpm lint               # Run ESLint

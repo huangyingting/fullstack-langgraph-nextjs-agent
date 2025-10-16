@@ -27,7 +27,7 @@ pnpm prisma:generate
 pnpm prisma:migrate
 
 # Development
-pnpm dev  # Next.js with Turbopack
+pnpm dev  # Next.js (uses webpack for native module support)
 pnpm prisma:studio  # Database UI
 
 # Database operations
