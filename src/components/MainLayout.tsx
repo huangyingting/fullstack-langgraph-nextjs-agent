@@ -18,20 +18,20 @@ export function MainLayout({ children }: MainLayoutProps) {
   const closeMCPConfig = useCallback(() => setShowMCPConfig(false), []);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-50">
+    <div className="flex h-screen overflow-hidden bg-[#F9F9F8]">
       {/* Sidebar */}
       <Sidebar isOpen={isSidebarOpen} toggle={toggleSidebar}>
         <ThreadList onOpenMCPConfig={openMCPConfig} />
       </Sidebar>
 
       {/* Main content area */}
-      <div className="bg-gray-150 flex min-w-0 flex-1 flex-col">
-        <div className="z-10">
+      <div className="flex min-w-0 flex-1 flex-col">
+        <div className="z-10 border-b border-black/[0.06]">
           <Header toggleSidebar={toggleSidebar} />
         </div>
 
-        {/* Main content */}
-        <div className="relative h-[calc(100vh-4rem)] flex-1">{children}</div>
+        {/* Main content - centered like Claude */}
+        <div className="relative flex-1 overflow-hidden">{children}</div>
       </div>
 
       {/* MCP Configuration Modal */}

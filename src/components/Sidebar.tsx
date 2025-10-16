@@ -24,19 +24,19 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggle, children }) => {
       <motion.div
         initial={false}
         animate={{
-          x: isOpen ? 0 : -256, // 256px = w-64
-          width: isOpen ? 256 : 0,
+          x: isOpen ? 0 : -280, // 280px = w-[280px]
+          width: isOpen ? 280 : 0,
         }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-        className={`fixed top-0 left-0 z-30 h-screen overflow-hidden border-r border-gray-200/50 bg-gradient-to-b from-white to-gray-50/50 backdrop-blur-xl supports-[backdrop-filter]:bg-white/90 dark:border-gray-800/50 dark:from-gray-900 dark:to-gray-900/80 md:sticky ${
+        transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+        className={`fixed top-0 left-0 z-30 h-screen overflow-hidden border-r border-black/[0.08] bg-white md:sticky ${
           isOpen ? "flex" : "hidden md:flex"
         }`}
       >
-        <div className="flex h-full w-64 flex-shrink-0 flex-col overflow-hidden px-3 py-4">
-          <div className="mb-6 flex items-center justify-between">
+        <div className="flex h-full w-[280px] flex-shrink-0 flex-col overflow-hidden">
+          <div className="flex items-center justify-between px-4 py-3 md:hidden">
             <button
               onClick={toggle}
-              className="cursor-pointer inline-flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 transition-all hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100 md:hidden"
+              className="cursor-pointer inline-flex h-8 w-8 items-center justify-center rounded-md text-[#5D5D5A] transition-colors hover:bg-black/5"
               aria-label="Close sidebar"
             >
               <X size={18} />
@@ -50,14 +50,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggle, children }) => {
       {/* Menu Toggle Button - Only show on mobile */}
       <button
         onClick={toggle}
-        className={`fixed top-4 left-4 z-40 cursor-pointer rounded-md p-2 transition-all duration-300 md:hidden ${
+        className={`fixed top-3 left-3 z-40 cursor-pointer rounded-md p-2 transition-all duration-200 md:hidden ${
           isOpen
             ? "pointer-events-none opacity-0"
-            : "border border-gray-200 bg-white opacity-100 shadow-sm hover:bg-gray-50"
+            : "border border-black/10 bg-white opacity-100 shadow-sm hover:bg-black/5"
         }`}
         aria-label="Toggle navigation"
       >
-        <PanelLeftClose size={20} />
+        <PanelLeftClose size={18} className="text-[#5D5D5A]" />
       </button>
 
       {/* Overlay Background - Only show on mobile */}

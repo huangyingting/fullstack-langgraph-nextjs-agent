@@ -53,14 +53,14 @@ export const Thread = ({ threadId, onFirstMessageSent }: ThreadProps) => {
         <>
           <div className="min-h-0 flex-1">
             <ScrollArea className="h-full">
-              <div className="space-y-4 px-4 py-4">
+              <div className="mx-auto max-w-3xl px-6">
                 <MessageList messages={messages} approveToolExecution={approveToolExecution} />
               </div>
             </ScrollArea>
           </div>
-          <div className="flex-shrink-0">
-            <div className="w-full p-4 pb-6">
-              <div className="mx-auto max-w-3xl">
+          <div className="flex-shrink-0 border-t border-black/[0.06]">
+            <div className="w-full py-4">
+              <div className="mx-auto max-w-3xl px-6">
                 <MessageInput onSendMessage={handleSendMessage} isLoading={isSending} />
               </div>
             </div>
@@ -68,13 +68,13 @@ export const Thread = ({ threadId, onFirstMessageSent }: ThreadProps) => {
         </>
       ) : (
         <div className="flex flex-1 items-center justify-center">
-          <div className="w-full max-w-3xl px-4">
-            <div className="mb-5 text-center">
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                Chat with your Agent
+          <div className="w-full max-w-3xl px-6">
+            <div className="mb-8 text-center">
+              <h1 className="text-2xl font-medium text-[#2D2D2D]">
+                How can I help you today?
               </h1>
-              <p className="text-muted-foreground mt-2">
-                Start a new conversation by sending a message
+              <p className="mt-2 text-[15px] text-[#5D5D5A]">
+                Start a conversation to explore what I can do
               </p>
             </div>
             <MessageInput onSendMessage={handleSendMessage} isLoading={isSending} />

@@ -3,7 +3,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./globals.css";
 import { ThreadProvider } from "@/contexts/ThreadContext";
 import { UISettingsProvider } from "@/contexts/UISettingsContext";
-import { ModelSettingsProvider } from "@/contexts/ModelSettingsContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,14 +17,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <head>
         <title>LangGraph & NextJS Agent</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
       </head>
-      <body>
+      <body className="font-inter antialiased">
         <QueryClientProvider client={queryClient}>
-          <ModelSettingsProvider>
-            <UISettingsProvider>
-              <ThreadProvider>{children}</ThreadProvider>
-            </UISettingsProvider>
-          </ModelSettingsProvider>
+          <UISettingsProvider>
+            <ThreadProvider>{children}</ThreadProvider>
+          </UISettingsProvider>
         </QueryClientProvider>
       </body>
     </html>

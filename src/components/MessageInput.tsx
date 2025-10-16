@@ -2,7 +2,6 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
 import { ArrowUp, Loader2, Eye, EyeOff } from "lucide-react";
 import { MessageOptions } from "@/types/message";
-import { useModelSettings } from "@/contexts/ModelSettingsContext";
 import { useUISettings } from "@/contexts/UISettingsContext";
 
 interface MessageInputProps {
@@ -19,9 +18,6 @@ export const MessageInput = ({
   const [message, setMessage] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [approveAllTools, setApproveAllTools] = useState<boolean>(false);
-
-  // Get model settings from context
-  const { provider, model } = useModelSettings();
 
   // UI settings for toggling tool messages
   const { hideToolMessages, toggleToolMessages } = useUISettings();
@@ -40,8 +36,6 @@ export const MessageInput = ({
     if (!message.trim() || isLoading) return;
 
     await onSendMessage(message, {
-      provider,
-      model,
       tools: [],
       approveAllTools: approveAllTools,
     });
@@ -53,12 +47,12 @@ export const MessageInput = ({
   return (
     <form onSubmit={handleSubmit} className="relative">
       <div
-        className={`relative mx-auto flex max-w-2xl flex-col rounded-2xl border transition-all duration-300 ${
-          isFocused ? "border-blue-400 shadow-lg shadow-blue-500/20" : "border-gray-200/50"
-        } bg-white/80 backdrop-blur-sm dark:bg-gray-900/80 dark:border-gray-700/50`}
+        className={`relative flex flex-col rounded-xl border transition-all duration-200 ${
+          isFocused ? "border-black/15 shadow-sm" : "border-black/10"
+        } bg-white`}
       >
         {/* Input Section */}
-        <div className="px-4 pt-4 pb-2">
+        <div className="px-4 pt-3 pb-2">
           <textarea
             value={message}
             ref={textareaRef}
@@ -66,7 +60,7 @@ export const MessageInput = ({
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             placeholder={"Type your message..."}
-            className="max-h-[200px] min-h-[60px] w-full flex-1 resize-none overflow-auto bg-transparent pr-12 text-gray-900 placeholder-gray-400 focus:outline-none dark:text-gray-100 dark:placeholder-gray-500"
+            className="max-h-[200px] min-h-[48px] w-full flex-1 resize-none overflow-auto bg-transparent text-[15px] leading-relaxed text-[#2D2D2D] placeholder-[#A0A0A0] focus:outline-none"
             rows={1}
             aria-label="Message input"
             disabled={isLoading}
@@ -81,34 +75,34 @@ export const MessageInput = ({
           <div className="flex items-center justify-between gap-3 pt-2">
             <div className="flex items-center gap-3">
               {/* Character counter */}
-              <div className={`text-xs font-medium ${isNearLimit ? "text-amber-500" : "text-gray-400"}`}>
+              <div className={`text-xs ${isNearLimit ? "text-amber-600" : "text-[#8E8E8E]"}`}>
                 {remainingChars}/{maxLength}
               </div>
 
-              {/* Auto-approve tools setting - always visible */}
-              <label className="flex cursor-pointer items-center gap-2">
+              {/* Auto-approve tools setting */}
+              <label className="flex cursor-pointer items-center gap-1.5">
                 <input
                   type="checkbox"
                   checked={approveAllTools}
                   onChange={(e) => setApproveAllTools(e.target.checked)}
-                  className="h-4 w-4 cursor-pointer rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500"
+                  className="h-3.5 w-3.5 cursor-pointer rounded border-black/20 text-[#AB6B3C] focus:ring-1 focus:ring-[#AB6B3C]/30"
                 />
-                <span className="text-xs font-medium text-gray-600 dark:text-gray-400">Auto-approve tools</span>
+                <span className="text-xs text-[#5D5D5A]">Auto-approve tools</span>
               </label>
 
               {/* Tool messages toggle */}
               <button
                 type="button"
                 onClick={toggleToolMessages}
-                className="inline-flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-xs font-medium transition-all hover:bg-gray-100 dark:hover:bg-gray-800"
+                className="inline-flex cursor-pointer items-center gap-1.5 rounded-md px-2 py-1 text-xs transition-colors hover:bg-black/5"
                 aria-label={hideToolMessages ? "Show tool messages" : "Hide tool messages"}
               >
                 {hideToolMessages ? (
-                  <EyeOff className="h-4 w-4 text-gray-500" />
+                  <EyeOff className="h-3.5 w-3.5 text-[#8E8E8E]" />
                 ) : (
-                  <Eye className="h-4 w-4 text-gray-500" />
+                  <Eye className="h-3.5 w-3.5 text-[#8E8E8E]" />
                 )}
-                <span className="text-gray-600 dark:text-gray-400">
+                <span className="text-[#5D5D5A]">
                   {hideToolMessages ? "Show tools" : "Hide tools"}
                 </span>
               </button>
@@ -119,8 +113,8 @@ export const MessageInput = ({
                 type="submit"
                 size="sm"
                 disabled={!message.trim() || isLoading}
-                className={`flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg p-0 transition-all ${
-                  message.trim() && !isLoading ? "bg-gradient-to-r from-blue-600 to-indigo-600 hover:shadow-lg hover:shadow-blue-500/30 text-white" : "bg-gray-200 text-gray-400 dark:bg-gray-700 dark:text-gray-600"
+                className={`flex h-8 w-8 cursor-pointer items-center justify-center rounded-md p-0 transition-all ${
+                  message.trim() && !isLoading ? "bg-[#AB6B3C] hover:bg-[#96593A] text-white" : "bg-black/5 text-[#A0A0A0]"
                 }`}
                 aria-label="Send message"
               >

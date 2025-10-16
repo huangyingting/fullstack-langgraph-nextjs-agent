@@ -6,8 +6,6 @@ export interface Thread {
 }
 
 export interface MessageOptions {
-  provider?: string;
-  model?: string;
   tools?: string[];
   allowTool?: "allow" | "deny";
   approveAllTools?: boolean; // if true, skip tool approval prompts
