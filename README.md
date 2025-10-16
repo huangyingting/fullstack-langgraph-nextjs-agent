@@ -9,7 +9,7 @@ _Complete agent workflow: user input → tool approval → execution → streami
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-15.4-black?logo=next.js)](https://nextjs.org/)
 [![LangGraph](https://img.shields.io/badge/LangGraph.js-0.4-green?logo=langchain)](https://langchain-ai.github.io/langgraphjs/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16+-blue?logo=postgresql)](https://www.postgresql.org/)
+[![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite)](https://www.sqlite.org/)
 [![Prisma](https://img.shields.io/badge/Prisma-5.19-2D3748?logo=prisma)](https://www.prisma.io/)
 
 ## Features
@@ -35,7 +35,7 @@ _Complete agent workflow: user input → tool approval → execution → streami
 
 ### **Persistent Conversation Memory**
 
-- LangGraph checkpointer with PostgreSQL backend
+- LangGraph checkpointer with SQLite backend
 - Full conversation history preservation
 - Thread-based organization
 - Seamless resume across sessions
@@ -50,7 +50,7 @@ _Complete agent workflow: user input → tool approval → execution → streami
 ### **Modern Tech Stack**
 
 - **Frontend**: Next.js 15, React 19, TypeScript, Tailwind CSS
-- **Backend**: Node.js, Prisma ORM, PostgreSQL
+- **Backend**: Node.js, Prisma ORM, SQLite
 - **AI**: LangGraph.js, OpenAI/Google models
 - **UI**: shadcn/ui components, Lucide icons
 
@@ -59,7 +59,6 @@ _Complete agent workflow: user input → tool approval → execution → streami
 ### Prerequisites
 
 - Node.js 18+ and pnpm
-- Docker (for PostgreSQL)
 - OpenAI API key or Google AI API key
 
 ### 1. Clone and Install
@@ -79,8 +78,8 @@ cp .env.example .env.local
 Edit `.env.local` with your configuration:
 
 ```env
-# Database
-DATABASE_URL="postgresql://user:password@localhost:5434/agent_db"
+# Database (SQLite - stores data locally)
+DATABASE_URL="file:./prisma/dev.db"
 
 # AI Models (choose one or both)
 OPENAI_API_KEY="sk-..."
@@ -90,20 +89,14 @@ GOOGLE_API_KEY="..."
 DEFAULT_MODEL="gpt-4o-mini"  # or "gemini-1.5-flash"
 ```
 
-### 3. Start Database
-
-```bash
-docker compose up -d
-```
-
-### 4. Database Setup
+### 3. Database Setup
 
 ```bash
 pnpm prisma:generate
 pnpm prisma:migrate
 ```
 
-### 5. Run Development Server
+### 4. Run Development Server
 
 ```bash
 pnpm dev
@@ -210,7 +203,7 @@ _MCP server configuration form with example filesystem server setup_
                                 │
                                 ▼
                        ┌──────────────────┐
-                       │   PostgreSQL     │
+                       │     SQLite       │
                        │  (Persistence)   │
                        └──────────────────┘
 ```
@@ -315,7 +308,7 @@ We welcome contributions! This project is designed to be a community resource fo
 
 - [LangGraph.js Documentation](https://langchain-ai.github.io/langgraphjs/)
 - [StateGraph API Reference](https://langchain-ai.github.io/langgraphjs/reference/modules/langgraph.html)
-- [Checkpointer Guide](https://langchain-ai.github.io/langgraphjs/how-tos/persistence-postgres)
+- [Checkpointer Guide](https://langchain-ai.github.io/langgraphjs/how-tos/persistence-sqlite)
 
 ### Model Context Protocol (MCP)
 

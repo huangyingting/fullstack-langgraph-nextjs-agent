@@ -56,7 +56,7 @@ This document provides a comprehensive overview of the LangGraph.js AI Agent Tem
 │                     External Systems                           │
 ├─────────────────────────────────────────────────────────────────┤
 │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐ │
-│  │   PostgreSQL    │  │   OpenAI/Google │  │   MCP Servers   │ │
+│  │     SQLite      │  │   OpenAI/Google │  │   MCP Servers   │ │
 │  │   (Persistence) │  │   (LLM APIs)    │  │   (Tools)       │ │
 │  └─────────────────┘  └─────────────────┘  └─────────────────┘ │
 └─────────────────────────────────────────────────────────────────┘
@@ -77,7 +77,7 @@ This document provides a comprehensive overview of the LangGraph.js AI Agent Tem
 
 - **Node.js**: JavaScript runtime
 - **Prisma ORM**: Type-safe database access
-- **PostgreSQL**: Primary database
+- **SQLite**: Primary database
 - **Server-Sent Events**: Real-time streaming
 
 #### AI & Tools
@@ -274,7 +274,7 @@ UI Update
 
 7. **Persistence**
    - All messages stored in LangGraph checkpointer
-   - Thread metadata updated in PostgreSQL
+   - Thread metadata updated in SQLite
    - MCP server configurations persisted
 
 ## 🗄️ Database Schema

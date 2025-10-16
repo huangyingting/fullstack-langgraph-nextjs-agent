@@ -7,8 +7,8 @@ This is a Next.js 15 fullstack application that implements an AI agent chat inte
 ### Core Agent System
 
 - **LangGraph Agent**: Built with `AgentBuilder` class in `src/lib/agent/builder.ts` - creates a StateGraph with agent→tool_approval→tools flow
-- **MCP Integration**: Dynamically loads tools from MCP servers stored in Postgres (`src/lib/agent/mcp.ts`)
-- **Persistent Memory**: Uses LangGraph's Postgres checkpointer for conversation history across sessions
+- **MCP Integration**: Dynamically loads tools from MCP servers stored in SQLite (`src/lib/agent/mcp.ts`)
+- **Persistent Memory**: Uses LangGraph's SQLite checkpointer for conversation history across sessions
 - **Tool Approval**: Implements human-in-the-loop pattern with interrupts for tool execution approval
 
 ### Data Flow
@@ -16,13 +16,12 @@ This is a Next.js 15 fullstack application that implements an AI agent chat inte
 1. User message → `/api/agent/stream` SSE endpoint → `streamResponse()` in `agentService.ts`
 2. Agent processes with tools from enabled MCP servers → streams incremental responses
 3. Frontend uses `useChatThread()` hook with React Query for optimistic UI and streaming
-4. Thread persistence via Prisma → Postgres (threads + MCP server configs)
+4. Thread persistence via Prisma → SQLite (threads + MCP server configs)
 
 ## Essential Development Commands
 
 ```bash
-# Setup (requires Postgres running on port 5434)
-docker compose up -d
+# Setup (no Docker required - uses SQLite)
 pnpm install
 pnpm prisma:generate
 pnpm prisma:migrate
@@ -40,7 +39,7 @@ pnpm prisma:migrate   # Create new migrations
 
 ### Agent Configuration
 
-- **One-time setup**: `ensureAgent()` ensures Postgres checkpointer is initialized before agent creation
+- **One-time setup**: `ensureAgent()` ensures SQLite checkpointer is initialized before agent creation
 - **Dynamic tool loading**: MCP servers are queried from database on each agent creation
 - **Model flexibility**: Supports switching between OpenAI/Google models via `AgentConfigOptions`
 
@@ -86,6 +85,6 @@ pnpm prisma:migrate   # Create new migrations
 
 - Thread history retrieved via `getHistory(threadId)` from LangGraph checkpoints
 - Frontend optimistically updates React Query cache during streaming
-- Postgres checkpointer handles concurrent access and persistence
+- SQLite checkpointer handles concurrent access and persistence
 
 When modifying the agent system, always run database migrations after schema changes and restart the dev server to pick up new MCP server configurations.

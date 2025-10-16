@@ -5,8 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Essential Development Commands
 
 ```bash
-# Setup (requires Postgres running)
-docker compose up -d          # Start Postgres on port 5434
+# Setup (no Docker required - uses SQLite)
 pnpm install
 pnpm prisma:generate
 pnpm prisma:migrate
@@ -31,8 +30,8 @@ This is a Next.js 15 fullstack AI agent chat application using LangGraph.js with
 ### Core Agent System
 
 - **Agent Builder**: `src/lib/agent/builder.ts` - Creates StateGraph with agent→tool_approval→tools flow
-- **MCP Integration**: `src/lib/agent/mcp.ts` - Dynamically loads tools from MCP servers stored in Postgres
-- **Persistent Memory**: Uses LangGraph's Postgres checkpointer for conversation history
+- **MCP Integration**: `src/lib/agent/mcp.ts` - Dynamically loads tools from MCP servers stored in SQLite
+- **Persistent Memory**: Uses LangGraph's SQLite checkpointer for conversation history
 - **Tool Approval**: Human-in-the-loop pattern with interrupts for tool execution approval
 
 ### Data Flow
@@ -40,7 +39,7 @@ This is a Next.js 15 fullstack AI agent chat application using LangGraph.js with
 1. User message → `/api/agent/stream` SSE endpoint → `streamResponse()` in `agentService.ts`
 2. Agent processes with tools from enabled MCP servers → streams incremental responses
 3. Frontend uses `useChatThread()` hook with React Query for optimistic UI and streaming
-4. Thread persistence via Prisma → Postgres (threads + MCP server configs)
+4. Thread persistence via Prisma → SQLite (threads + MCP server configs)
 
 ### Key Components Structure
 

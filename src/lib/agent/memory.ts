@@ -1,5 +1,5 @@
 import { BaseMessage } from "@langchain/core/messages";
-import { PostgresSaver } from "@langchain/langgraph-checkpoint-postgres";
+import { SqliteSaver } from "@langchain/langgraph-checkpoint-sqlite";
 import * as dotenv from "dotenv";
 
 if (process.env.NODE_ENV !== "test") {
@@ -7,14 +7,12 @@ if (process.env.NODE_ENV !== "test") {
 }
 
 /**
- * Creates a PostgresSaver instance using environment variables
- * @returns PostgresSaver instance
+ * Creates a SqliteSaver instance using environment variables
+ * @returns SqliteSaver instance
  */
-export function createPostgresMemory(): PostgresSaver {
-  const connectionString = `${process.env.DATABASE_URL}${
-    process.env.DB_SSLMODE ? `?sslmode=${process.env.DB_SSLMODE}` : ""
-  }`;
-  return PostgresSaver.fromConnString(connectionString);
+export function createSqliteMemory(): SqliteSaver {
+  const dbPath = process.env.DATABASE_URL?.replace("file:", "") || "./langgraph.db";
+  return SqliteSaver.fromConnString(dbPath);
 }
 
 /**
@@ -23,10 +21,10 @@ export function createPostgresMemory(): PostgresSaver {
  * @returns An array of messages associated with the thread.
  */
 export const getHistory = async (threadId: string): Promise<BaseMessage[]> => {
-  const history = await postgresCheckpointer.get({
+  const history = await sqliteCheckpointer.get({
     configurable: { thread_id: threadId },
   });
   return Array.isArray(history?.channel_values?.messages) ? history.channel_values.messages : [];
 };
 
-export const postgresCheckpointer = createPostgresMemory();
+export const sqliteCheckpointer = createSqliteMemory();
