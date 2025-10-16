@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { PanelLeftClose, X } from "lucide-react";
+import { PanelLeft, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface SidebarProps {
@@ -48,8 +48,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggle, children }) => {
       </motion.div>
 
       {/* Menu Toggle Button - Only show on mobile */}
-      <button
+      <motion.button
         onClick={toggle}
+        animate={{
+          rotate: isOpen ? 180 : 0,
+        }}
+        transition={{ duration: 0.2 }}
         className={`fixed top-3 left-3 z-40 cursor-pointer rounded-md p-2 transition-all duration-200 md:hidden ${
           isOpen
             ? "pointer-events-none opacity-0"
@@ -57,8 +61,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggle, children }) => {
         }`}
         aria-label="Toggle navigation"
       >
-        <PanelLeftClose size={18} className="text-[#5D5D5A]" />
-      </button>
+        <PanelLeft size={18} className="text-[#5D5D5A]" />
+      </motion.button>
 
       {/* Overlay Background - Only show on mobile */}
       <AnimatePresence>

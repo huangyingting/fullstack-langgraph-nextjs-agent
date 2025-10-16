@@ -1,6 +1,7 @@
 import { BaseMessage } from "@langchain/core/messages";
 import { SqliteSaver } from "@langchain/langgraph-checkpoint-sqlite";
 import * as dotenv from "dotenv";
+import path from "path";
 
 if (process.env.NODE_ENV !== "test") {
   dotenv.config();
@@ -11,7 +12,14 @@ if (process.env.NODE_ENV !== "test") {
  * @returns SqliteSaver instance
  */
 export function createSqliteMemory(): SqliteSaver {
-  const dbPath = process.env.DATABASE_URL?.replace("file:", "") || "./langgraph.db";
+  let dbPath = process.env.DATABASE_URL?.replace("file:", "") || "./langgraph.db";
+  
+  // Convert relative paths to absolute paths based on the prisma folder
+  if (!path.isAbsolute(dbPath)) {
+    const prismaDir = path.join(process.cwd(), "prisma");
+    dbPath = path.resolve(prismaDir, dbPath);
+  }
+  
   return SqliteSaver.fromConnString(dbPath);
 }
 

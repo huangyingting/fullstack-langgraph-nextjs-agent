@@ -48,21 +48,17 @@ export const Thread = ({ threadId, onFirstMessageSent }: ThreadProps) => {
   }
 
   return (
-    <div className="absolute inset-0 flex flex-col">
+    <div className="absolute inset-0 flex flex-col bg-white">
       {messages.length > 0 ? (
         <>
-          <div className="min-h-0 flex-1">
+          <div className="min-h-0 flex-1 overflow-hidden">
             <ScrollArea className="h-full">
-              <div className="mx-auto max-w-3xl px-6">
-                <MessageList messages={messages} approveToolExecution={approveToolExecution} />
-              </div>
+              <MessageList messages={messages} approveToolExecution={approveToolExecution} />
             </ScrollArea>
           </div>
-          <div className="flex-shrink-0 border-t border-black/[0.06]">
-            <div className="w-full py-4">
-              <div className="mx-auto max-w-3xl px-6">
-                <MessageInput onSendMessage={handleSendMessage} isLoading={isSending} />
-              </div>
+          <div className="flex-shrink-0 border-t border-black/[0.06] bg-white">
+            <div className="mx-auto w-full max-w-3xl px-6 py-4">
+              <MessageInput onSendMessage={handleSendMessage} isLoading={isSending} />
             </div>
           </div>
         </>

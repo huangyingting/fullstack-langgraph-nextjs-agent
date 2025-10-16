@@ -9,8 +9,8 @@ interface HumanMessageProps {
 export const HumanMessage = ({ message }: HumanMessageProps) => {
   return (
     <div className="flex justify-end animate-in fade-in duration-300">
-      <div className="flex max-w-[85%] gap-4">
-        <div className="flex-1 pt-0.5">
+      <div className="flex max-w-[85%] gap-4 items-center">
+        <div className="flex-1">
           <div className="rounded-2xl bg-[#F4F4F4] px-4 py-3 text-[13px] leading-relaxed text-[#2D2D2D] font-normal">
             {getMessageContent(message)}
           </div>

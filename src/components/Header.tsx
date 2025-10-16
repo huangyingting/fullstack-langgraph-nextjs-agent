@@ -1,11 +1,12 @@
 import React from "react";
-import { PanelLeftClose, Sparkles } from "lucide-react";
+import { PanelLeftClose, PanelLeftOpen, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 interface HeaderProps {
   toggleSidebar: () => void;
+  isSidebarOpen?: boolean;
 }
-export const Header = ({ toggleSidebar }: HeaderProps) => {
+export const Header = ({ toggleSidebar, isSidebarOpen = false }: HeaderProps) => {
   return (
     <header className="sticky top-0 z-10 bg-white">
       <div className="flex items-center justify-between px-4 py-2.5">
@@ -15,7 +16,7 @@ export const Header = ({ toggleSidebar }: HeaderProps) => {
             className="inline-flex h-8 w-8 items-center justify-center rounded-md text-[#5D5D5A] transition-colors hover:bg-black/5"
             aria-label="Toggle navigation"
           >
-            <PanelLeftClose size={18} />
+            {isSidebarOpen ? <PanelLeftOpen size={18} /> : <PanelLeftClose size={18} />}
           </button>
 
           <Link href="/" className="flex items-center gap-2.5 group">

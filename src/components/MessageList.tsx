@@ -44,27 +44,29 @@ const MessageList = ({ messages, approveToolExecution }: MessageListProps) => {
   }, []);
 
   return (
-    <div className="mx-auto w-full max-w-3xl space-y-6">
-      {uniqueMessages.map((message, index) => {
-        if (message.type === "human") {
-          return <HumanMessage key={getMessageId(message)} message={message} />;
-        } else if (message.type === "ai") {
-          return (
-            <AIMessage
-              key={getMessageId(message)}
-              message={message}
-              showApprovalButtons={index === messages.length - 1} // Show buttons only on the latest AI message
-              approvalCallbacks={approvalCallbacks}
-            />
-          );
-        } else if (message.type === "tool" && !hideToolMessages) {
-          return <ToolMessage key={getMessageId(message)} message={message} />;
-        } else if (message.type === "error") {
-          return <ErrorMessage key={getMessageId(message)} message={message} />;
-        }
-        return null;
-      })}
-      <div ref={bottomRef} className="h-px" />
+    <div className="w-full">
+      <div className="mx-auto w-full max-w-3xl space-y-1 px-6 py-4">
+        {uniqueMessages.map((message, index) => {
+          if (message.type === "human") {
+            return <HumanMessage key={getMessageId(message)} message={message} />;
+          } else if (message.type === "ai") {
+            return (
+              <AIMessage
+                key={getMessageId(message)}
+                message={message}
+                showApprovalButtons={index === messages.length - 1}
+                approvalCallbacks={approvalCallbacks}
+              />
+            );
+          } else if (message.type === "tool" && !hideToolMessages) {
+            return <ToolMessage key={getMessageId(message)} message={message} />;
+          } else if (message.type === "error") {
+            return <ErrorMessage key={getMessageId(message)} message={message} />;
+          }
+          return null;
+        })}
+        <div ref={bottomRef} className="h-px" />
+      </div>
     </div>
   );
 };

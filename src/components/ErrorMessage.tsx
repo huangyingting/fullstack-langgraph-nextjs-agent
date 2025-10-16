@@ -9,8 +9,8 @@ interface ErrorMessageProps {
 
 export const ErrorMessage = ({ message }: ErrorMessageProps) => {
   return (
-    <div className="flex gap-3 animate-in fade-in slide-in-from-bottom-2 duration-300">
-      <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-red-500 to-rose-600 shadow-lg shadow-red-500/20">
+    <div className="flex gap-3 animate-in fade-in slide-in-from-bottom-2 duration-300 items-start">
+      <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-red-500 to-rose-600 shadow-lg shadow-red-500/20 mt-0.5">
         <AlertTriangle className="h-5 w-5 text-white" />
       </div>
       <div className="max-w-[80%]">

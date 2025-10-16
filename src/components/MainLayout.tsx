@@ -27,7 +27,7 @@ export function MainLayout({ children }: MainLayoutProps) {
       {/* Main content area */}
       <div className="flex min-w-0 flex-1 flex-col">
         <div className="z-10 border-b border-black/[0.06]">
-          <Header toggleSidebar={toggleSidebar} />
+          <Header toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
         </div>
 
         {/* Main content - centered like Claude */}
